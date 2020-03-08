@@ -3,21 +3,20 @@ import "./App.css";
 
 function randomColor() {
   return [
-    Math.round(Math.random() * 155 + 100),
-    Math.round(Math.random() * 155 + 100),
-    Math.round(Math.random() * 155 + 100)
+    Math.round(Math.random() * 105 + 150),
+    Math.round(Math.random() * 105 + 150),
+    Math.round(Math.random() * 105 + 150)
   ];
 }
 
 function Block(props) {
   const style = {
-    margin: "16px",
     backgroundColor: `rgb(${randomColor()})`
   };
 
   return (
-    <div className="Block">
-      <text style={style}>{props.value}</text>
+    <div className="Block" style={style}>
+      <text>{props.value}</text>
     </div>
   );
 }
@@ -27,16 +26,20 @@ class App extends React.Component {
     super(props);
     this.state = {
       inputWords: ["Hey", "Hi", "Hello"],
-      outputWords: []
+      outputDefine: []
     };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    this.setState({
-      inputWords: event.target.value.replace(/[^\w]/g, "").split("")
-    });
+    const newWord = event.target.value
+      .replace(/[.,\/\^&\*;:{}=\-_`~()]/g, "")
+      .split("");
+    if (this.state.inputWords.indexOf(newWord) > -1)
+      this.setState({
+        inputWords: newWord
+      });
   }
 
   render() {
@@ -44,6 +47,11 @@ class App extends React.Component {
     for (const word of this.state.inputWords) {
       blockList.push(<Block value={word} />);
     }
+
+    //const defineList = [];
+    //for (const word of this.state.outputWords) {
+    // blockList.push(<Block value={word} />);
+    //}
 
     return (
       <div className="App">
@@ -56,6 +64,7 @@ class App extends React.Component {
           ></input>
         </div>
         <div className="InputBlocks">{blockList}</div>
+        <div className="OutputBlocks">{defineList}</div>
       </div>
     );
   }

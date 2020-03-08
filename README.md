@@ -1,1 +1,1 @@
-haimei wanle
+Chinese compound word dictionary
