@@ -36,10 +36,12 @@ class App extends React.Component {
     const newWord = event.target.value
       .replace(/[.,\/\^&\*;:{}=\-_`~()]/g, "")
       .split("");
-    if (this.state.inputWords.indexOf(newWord) > -1)
+
+    if (this.state.inputWords.indexOf(newWord) > -1) {
       this.setState({
         inputWords: newWord
       });
+    }
   }
 
   render() {
@@ -64,7 +66,7 @@ class App extends React.Component {
           ></input>
         </div>
         <div className="InputBlocks">{blockList}</div>
-        <div className="OutputBlocks">{defineList}</div>
+        <div className="OutputBlocks">{}</div>
       </div>
     );
   }
