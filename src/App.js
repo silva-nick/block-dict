@@ -41,8 +41,11 @@ class App extends React.Component {
       this.setState({
         inputWords: newWord
       });
+      //addDefine(newWord);
     }
   }
+
+  addDefine(newWord) {}
 
   render() {
     const blockList = [];
