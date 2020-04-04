@@ -20,10 +20,26 @@ app.use("/users", usersRouter);
 //database
 let mongoose = require("mongoose");
 
-let mongoDB = "mongodb://127.0.0.1/dictionary";
+let mongoDB =
+  "mongodb+srv://silva-nick:fzP92gFWHDZYg7tG@clusterblock-oej5x.gcp.mongodb.net/test?retryWrites=true&w=majority";
 mongoose.connect(mongoDB, { newUrlParser: true });
 
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB error"));
+
+let Character = require("./models/character");
+let Word = require("./models/word");
+
+Character.find({ simplified: "Some chinese character" }, function(error, char) {
+  if (err) return handleError(err);
+  let idList = char.blocks;
+  var wordList = [];
+  for (const wordId in idList) {
+    Word.find({ _blockId: wordId }, (err, word) => {
+      if (err) return handleError(err);
+      wordList.push(word);
+    });
+  }
+});
 
 module.exports = app;
