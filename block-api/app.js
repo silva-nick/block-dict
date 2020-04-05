@@ -22,7 +22,7 @@ let mongoose = require("mongoose");
 
 let mongoDB =
   "mongodb+srv://silva-nick:fzP92gFWHDZYg7tG@clusterblock-oej5x.gcp.mongodb.net/test?retryWrites=true&w=majority";
-mongoose.connect(mongoDB, { newUrlParser: true });
+mongoose.connect(mongoDB, { useNewUrlParser: true });
 
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB error"));
@@ -30,7 +30,10 @@ db.on("error", console.error.bind(console, "MongoDB error"));
 let Character = require("./models/character");
 let Word = require("./models/word");
 
-Character.find({ simplified: "Some chinese character" }, function(error, char) {
+Character.find({ simplified: "Some chinese character" }, function (
+  error,
+  char
+) {
   if (err) return handleError(err);
   let idList = char.blocks;
   var wordList = [];

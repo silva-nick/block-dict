@@ -6,10 +6,14 @@ var WordSchema = new Schema({
   simplified: [String],
   pinyin: String,
   english: String,
-  _blockId: Schema.Types.ObjectId
+  _blockId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    auto: true,
+  },
 });
 
-WordSchema.virtual("simpleString").get(function() {
+WordSchema.virtual("simpleString").get(function () {
   return this.simplified.join("");
 });
 
