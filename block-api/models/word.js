@@ -6,11 +6,6 @@ var WordSchema = new Schema({
   simplified: [String],
   pinyin: String,
   english: String,
-  _blockId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    auto: true,
-  },
 });
 
 WordSchema.virtual("simpleString").get(function () {
