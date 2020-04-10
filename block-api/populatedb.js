@@ -13,51 +13,57 @@ var dictionary = require("../dictionary.json");
 
 db.once("open", () => {
   iterateDictionary();
-  createCharacters();
+  // createCharacters();
 });
 
 var charList = [];
 
-function iterateDictionary() {
+async function iterateDictionary() {
   console.log("connected to server  " + dictionary.length);
+  let count = 10;
   for (const word of dictionary) {
-    // console.log("word: " + word.simplified.split(""));
-    let wordCharList = word.simplified.split("");
-    let wordDB = new Word({
-      simplified: wordCharList,
-      pinyin: word.pinyin,
-      english: word.english,
-      _id: mongoose.mongo.ObjectID(hashId(word.pinyin, word.english) + ""),
-    });
-    wordDB.save((err) => {
-      if (err) return handleError(err);
-      //console.log("success");
-    });
-
-    for (const char of wordCharList) {
-      if (charList.findIndex((x) => x.character === char) === -1) {
-        charList.push({ character: char, words: [wordDB._id] });
-      } else {
-        charList[charList.findIndex((x) => x.character === char)].words.push(
-          wordDB._id
-        );
-      }
+    if (count % 11 === 0) {
+      let wordCharList = word.simplified.split("");
+      let wordDB = new Word({
+        simplified: wordCharList,
+        pinyin: word.pinyin,
+        english: word.english,
+        _id: mongoose.mongo.ObjectID(hashId(word.pinyin, word.english) + ""),
+      });
+      await wordDB.save((err) => {
+        if (err) return handleError(err);
+        console.log("success");
+      });
     }
+    count++;
+    // for (const char of wordCharList) {
+    //   if (charList.findIndex((x) => x.character === char) === -1) {
+    //     charList.push({ character: char, words: [wordDB._id] });
+    //   } else {
+    //     charList[charList.findIndex((x) => x.character === char)].words.push(
+    //       wordDB._id
+    //     );
+    //   }
+    // }
   }
   console.log("finished writing words");
 }
 
-function createCharacters() {
+async function createCharacters() {
   console.log("starting writing characters");
+  let count = 0;
   for (const x of charList) {
-    let newChar = new Character({
-      simplified: x.character,
-      blocks: x.words,
-    });
-    newChar.save((err) => {
-      if (err) return handleError(err);
-      //console.log("\tsuccess");
-    });
+    if (count % 3 === 0) {
+      let newChar = new Character({
+        simplified: x.character,
+        blocks: x.words,
+      });
+      await newChar.save((err) => {
+        if (err) return handleError(err);
+        console.log("\tsuccess");
+      });
+    }
+    count++;
   }
   console.log("finished writing characters");
 }
@@ -83,6 +89,6 @@ function hashId(pinyin, definition) {
 }
 
 function handleError(err) {
-  console.log(err);
+  //console.log(err);
   return err;
 }
