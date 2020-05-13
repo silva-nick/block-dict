@@ -1,11 +1,16 @@
 const http = require("http");
-const dict = require("dictionary.json");
+const dict = require("./dictionary.json");
 
 http
   .createServer((request, response) => {
-    const { headers, method, url } = request;
+    console.log(request.method);
+    console.log(request.url);
+    console.log(request.url.indexOf("/api/dictionary") > -1);
     let body = [];
-    if (request.method === "GET" && request.url === "/dictionary") {
+    if (
+      request.method === "GET" &&
+      request.url.indexOf("/api/dictionary") > -1
+    ) {
       request
         .on("error", (err) => {
           console.log(err);
@@ -33,6 +38,7 @@ http
               });
               if (def !== undefined) {
                 delete def.traditional;
+                console.log(def);
                 response.write(def);
               }
             }
@@ -43,4 +49,4 @@ http
       response.end();
     }
   })
-  .listen(3000);
+  .listen(3001);
