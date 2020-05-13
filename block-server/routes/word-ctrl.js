@@ -40,6 +40,8 @@ getWordById = async function (req, res) {
   }
 };
 
+getCharactersTest = async function (req, res) {};
+
 function handleError(err) {
   console.log(err);
   return err;
