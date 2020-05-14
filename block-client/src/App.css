@@ -19,7 +19,7 @@ html {
   align-items: center;
   justify-content: center;
   height: 40%;
-  top: 10%;
+  margin-top: 18px;
 }
 
 .output-blocks {
@@ -29,6 +29,7 @@ html {
   align-items: center;
   justify-content: center;
   height: 60%;
+  margin-top: 18px;
 }
 
 .block {
