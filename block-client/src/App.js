@@ -96,18 +96,42 @@ class App extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handlePaste = this.handlePaste.bind(this);
   }
 
   handleChange(event) {
-    const newWord = event.target.value
+    alert("test " + event.target.value);
+    const currentWords = event.target.value
       .replace(/[.,\/\^&\*;:{}=\-_`~()]/g, "")
       .split("");
-    if (this.state.inputWords.indexOf(newWord[newWord.length - 1]) === -1) {
-      // alert(this.state.inputWords);
-      this.setState({
-        inputWords: newWord,
-      });
+    let newWord = currentWords[currentWords.length - 1];
+    if (this.state.inputWords.indexOf(newWord) === -1) {
+      //alert(newWord);
+      // this.setState({
+      //   inputWords: newWord,
+      // });
+      this.state.inputWords.push(newWord);
+      event.target.value = this.state.inputWords;
       this.addDefines(newWord);
+    }
+  }
+
+  handlePaste(event) {
+    //alert(event.type + " - " + event.clipboardData.getData("text/plain"));
+    const newWords = event.clipboardData
+      .getData("text/plain")
+      .replace(/[.,\/\^&\*;:{}=\-_`~()]/g, "")
+      .split("");
+    //alert(newWords);
+    for (const word of newWords) {
+      if (this.state.inputWords.indexOf(word) === -1) {
+        this.state.inputWords.push(word);
+        // this.setState({
+        //   inputWords: newWords,
+        // });
+        //event.target.value = this.state.inputWords;
+        this.addDefines(this.state.inputWords);
+      }
     }
   }
 
@@ -148,6 +172,7 @@ class App extends React.Component {
             placeholder="Search.."
             autoFocus
             onChange={this.handleChange}
+            onPaste={this.handlePaste}
           ></input>
         </div>
         <div className="input-blocks">{blockList}</div>

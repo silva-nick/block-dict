@@ -22,28 +22,30 @@ http
         .on("end", () => {
           body = Buffer.concat(body).toString();
           // respond:
-          words = querystring.parse(body);
+          let words = querystring.parse(body);
           console.log(body);
+          let keys = Object.keys(words);
+          let newWord = words[keys[keys.length - 1]];
+          console.log("newword: " + newWord);
+
+          let newDef = dict.find((obj) => {
+            return obj.simplified === newWord;
+          });
+          if (newDef !== undefined) {
+            delete newDef.traditional;
+            console.log(querystring.stringify(newDef));
+            response.write(querystring.stringify(newDef) + "}");
+          }
           for (wordIndex in words) {
-            let def = dict.find((obj) => {
-              return obj.simplified === words[wordIndex];
+            c1 = words[wordIndex] + newWord;
+            c2 = newWord + words[wordIndex];
+            def = dict.find((obj) => {
+              return obj.simplified === c1 || obj.simplified === c2;
             });
             if (def !== undefined) {
               delete def.traditional;
               console.log(querystring.stringify(def));
               response.write(querystring.stringify(def) + "}");
-            }
-            for (word2Index in words) {
-              c1 = words[wordIndex] + words[word2Index];
-              c2 = words[word2Index] + words[wordIndex];
-              def = dict.find((obj) => {
-                return obj.simplified === c1 || obj.simplified === c2;
-              });
-              if (def !== undefined) {
-                delete def.traditional;
-                console.log(querystring.stringify(def));
-                response.write(querystring.stringify(def) + "}");
-              }
             }
           }
           response.end();
