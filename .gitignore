@@ -51,6 +51,6 @@ yarn-error.log*
 
 
 # react defaults #
-/block-client/
+/block-client/node_modules
 node_modules/*.*
 /block-api/node_modules/*.*
