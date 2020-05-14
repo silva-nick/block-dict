@@ -1,14 +1,15 @@
 const http = require("http");
 const dict = require("./dictionary.json");
+const querystring = require("querystring");
 
 http
   .createServer((request, response) => {
     console.log(request.method);
     console.log(request.url);
-    console.log(request.url.indexOf("/api/dictionary") > -1);
+    console.log(request.url.indexOf("api/dictionary") > -1);
     let body = [];
     if (
-      request.method === "GET" &&
+      request.method === "POST" &&
       request.url.indexOf("/api/dictionary") > -1
     ) {
       request
@@ -16,21 +17,24 @@ http
           console.log(err);
         })
         .on("data", (chunk) => {
+          console.log(chunk);
           body.push(chunk);
         })
         .on("end", () => {
           body = Buffer.concat(body).toString();
           // respond:
-          words = body.split(",");
-          for (word of words) {
+          words = querystring.parse(body);
+          console.log(body);
+          console.log(words);
+          for (word in words) {
             let def = dict.filter((obj) => {
               return obj.simplified === word;
             });
             if (def !== undefined) {
               delete def.traditional;
-              response.write(def);
+              response.write(querystring.stringify(def));
             }
-            for (word2 of words) {
+            for (word2 in words) {
               c1 = word + word2;
               c2 = word2 + word;
               def = dict.find((obj) => {
@@ -38,8 +42,8 @@ http
               });
               if (def !== undefined) {
                 delete def.traditional;
-                console.log(def);
-                response.write(def);
+                console.log(querystring.stringify(def));
+                response.write(querystring.stringify(def));
               }
             }
           }
