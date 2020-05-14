@@ -19,16 +19,29 @@ function randomColor() {
   ];
 }
 
-function Block(props) {
-  const style = {
-    backgroundColor: `rgb(${randomColor()})`,
-  };
+class Block extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-  return (
-    <div className="block" style={style}>
-      <text>{props.value}</text>
-    </div>
-  );
+  handleClick() {
+    this.setState((state) => ({
+      open: !state.open,
+    }));
+  }
+
+  render() {
+    const style = {
+      backgroundColor: `rgb(${randomColor()})`,
+    };
+
+    return (
+      <div className="block" style={style}>
+        <text onClick={this.handleClick}>{this.props.value}</text>
+      </div>
+    );
+  }
 }
 
 class BigBlock extends React.Component {
@@ -87,18 +100,21 @@ class BigBlock extends React.Component {
   }
 }
 
+/*-------------------------START OF APP-------------------------*/
+const landing = {
+  Type: [{ simplified: "\u5f00", pinyin: "kai1", english: "open" }],
+  to: [{ simplified: "\u59cb", pinyin: "shi3", english: "beginning" }],
+  start: [
+    { simplified: "\u5427!", pinyin: "ba", english: "suggestive particle" },
+  ],
+};
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputWords: ["Type", "to", "start"],
-      outputDefine: [],
-      words: {},
-      numWords: 0,
+      words: landing,
     };
-
     this.handleChange = this.handleChange.bind(this);
-    this.handlePaste = this.handlePaste.bind(this);
   }
 
   handleChange(event) {
@@ -108,73 +124,41 @@ class App extends React.Component {
       .split("");
     if (currentWords.length === 0) {
       this.setState({
-        inputWords: ["Type", "to", "start"],
         words: {
-          Type: null,
-          to: null,
-          start: null,
+          Type: [{ simplified: "\u5f00", pinyin: "kai1", english: "open" }],
+          to: [{ simplified: "\u59cb", pinyin: "shi3", english: "beginning" }],
+          start: [
+            {
+              simplified: "\u5427!",
+              pinyin: "ba",
+              english: "suggestive particle",
+            },
+          ],
         },
-        numWords: 0,
       });
     } else {
       const wordSet = [...new Set(currentWords)];
-
-      for (let i = 0; i < this.state.inputWords.length; i++) {
-        if (wordSet.indexOf(this.state.inputWords[i]) === -1) {
-          //delete this.state.words[this.state.inputWords[i]]
+      //alert(wordSet + "  and  " + Object.keys(this.state.words));
+      for (const oldWord in this.state.words) {
+        if (wordSet.indexOf(oldWord) === -1) {
+          delete this.state.words[oldWord];
           //deleted
         }
       }
-      for (let i = 0; i < wordSet.length; i++) {
-        if (this.state.inputWords.indexOf(wordSet[i]) === -1) {
+      for (const newWord of wordSet) {
+        if (Object.keys(this.state.words).indexOf(newWord) === -1) {
           //added
-          this.state.inputWords.push(wordSet[i]);
-          //alert(this.state.inputWords);
-          this.addDefines(this.state.inputWords);
+          //this.state.words.put(wordSet[i]);
+          this.state.words[newWord] = [];
+          this.addDefines(Object.keys(this.state.words), newWord);
         }
       }
-
-      this.setState({
-        inputWords: wordSet,
-        numWords: wordSet.length,
-      });
-    }
-
-    // let newWord = currentWords[currentWords.length - 1];
-
-    // if (this.state.inputWords.indexOf(newWord) === -1) {
-    //   alert(newWord);
-    //   this.setState({
-    //     inputWords: newWord,
-    //   });
-    //   this.state.inputWords.push(newWord);
-    //   event.target.value = this.state.inputWords;
-    //   this.addDefines(newWord);
-    // }
-  }
-
-  handlePaste(event) {
-    alert(event.type + " - " + event.clipboardData.getData("text/plain"));
-    let newWords = event.clipboardData
-      .getData("text/plain")
-      .replace(/[.,\/\^&\*;:{}=\-_`~()]/g, "")
-      .split("");
-    newWords = [];
-    //alert(newWords);
-    for (const word of newWords) {
-      if (this.state.inputWords.indexOf(word) === -1) {
-        this.state.inputWords.push(word);
-        // this.setState({
-        //   inputWords: newWords,
-        // });
-        //event.target.value = this.state.inputWords;
-        this.addDefines(this.state.inputWords);
-      }
+      this.forceUpdate();
     }
   }
 
-  async addDefines(newWord) {
-    await api.getDefsByChars(newWord).then((words) => {
+  async addDefines(inputWords, newWord) {
+    await api.getDefsByChars(inputWords).then((words) => {
       //alert(words.data);
       if (words) {
         words = words.data.split("}");
@@ -182,23 +166,24 @@ class App extends React.Component {
         //alert(words);
         for (let word of words) {
           word = querystring.parse(word);
-          if (this.state.outputDefine.indexOf(word) === -1)
-            this.state.outputDefine.push(word);
+          if (this.state.words[newWord].indexOf(word) === -1)
+            this.state.words[newWord].push(word);
         }
         this.forceUpdate();
       }
     });
   }
 
+  selectedCallback = (selected) => {};
+
   render() {
     const blockList = [];
-    for (const word of this.state.inputWords) {
-      blockList.push(<Block value={word} />);
-    }
-
     const defineList = [];
-    for (const define of this.state.outputDefine) {
-      defineList.push(<BigBlock value={define} />);
+    for (const word in this.state.words) {
+      blockList.push(<Block value={word} />);
+      for (const define of this.state.words[word]) {
+        defineList.push(<BigBlock value={define} />);
+      }
     }
 
     return (
@@ -210,7 +195,6 @@ class App extends React.Component {
             placeholder="Search.."
             autoFocus
             onChange={this.handleChange}
-            //onPaste={this.handlePaste}
           ></input>
         </div>
         <div className="input-blocks">{blockList}</div>
