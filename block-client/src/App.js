@@ -22,18 +22,22 @@ function randomColor() {
 class Block extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { color: "#EADAAC", selected: false };
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
+    this.state.selected = !this.state.selected;
     this.setState((state) => ({
-      open: !state.open,
+      color: this.state.selected ? `#D6B85C` : "#EADAAC",
     }));
+    this.props.callback(this.state.selected);
   }
 
   render() {
     const style = {
-      backgroundColor: `rgb(${randomColor()})`,
+      //backgroundColor: `rgb(${randomColor()})`,
+      backgroundColor: this.state.color,
     };
 
     return (
@@ -174,13 +178,15 @@ class App extends React.Component {
     });
   }
 
-  selectedCallback = (selected) => {};
+  selectedCallback = (selected) => {
+    console.log(selected);
+  };
 
   render() {
     const blockList = [];
     const defineList = [];
     for (const word in this.state.words) {
-      blockList.push(<Block value={word} />);
+      blockList.push(<Block value={word} callback={this.selectedCallback} />);
       for (const define of this.state.words[word]) {
         defineList.push(<BigBlock value={define} />);
       }
