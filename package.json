@@ -27,5 +27,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "Chinese compound word dictionary",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silva-nick/block-dict.git"
+  },
+  "author": "ns",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/silva-nick/block-dict/issues"
+  },
+  "homepage": "https://github.com/silva-nick/block-dict#readme"
 }
