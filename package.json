@@ -1,6 +1,10 @@
 {
   "name": "block-dictionary",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.16.0",
+    "npm": "6.13.4"
+  },
   "dependencies": {
     "fs": "0.0.1-security",
     "http": "0.0.1-security",
