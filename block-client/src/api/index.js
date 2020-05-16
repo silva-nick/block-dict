@@ -1,15 +1,12 @@
 import axios from "axios";
 const querystring = require("querystring");
 
-const api = axios.create({
-  baseURL: "http://localhost:3001/api/",
-});
+const api = axios.create();
 
 //export const getCharByChar = (char) => api.get(`/char/${char}`);
-export const getCharByChar = (char) => api.get(`/char/${char}`);
 export const getDefsByChars = (charList) =>
   api.post(`/dictionary`, querystring.stringify(charList));
 
-const apis = { getCharByChar, getDefsByChars };
+const apis = { getDefsByChars };
 
 export default apis;

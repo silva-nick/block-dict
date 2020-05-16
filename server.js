@@ -60,7 +60,6 @@ http
       fs.readFile(directory, function (err, data) {
         if (err) {
           response.writeHead(404);
-          response.write("wigga what");
           response.end(JSON.stringify(err));
           return;
         }
