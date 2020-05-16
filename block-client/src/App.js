@@ -4,13 +4,6 @@ import api from "./api";
 
 const querystring = require("querystring");
 
-console.stdlog = console.log.bind(console);
-console.logs = [];
-console.log = function () {
-  console.logs.push(Array.from(arguments));
-  console.stdlog.apply(console, arguments);
-};
-
 function randomColor() {
   return [
     Math.round(Math.random() * 105 + 150),
