@@ -1,6 +1,7 @@
 {
   "name": "block-dictionary",
   "version": "1.0.0",
+  "description": "Chinese compound word dictionary",
   "engines": {
     "node": "12.16.x",
     "npm": "6.x"
@@ -18,15 +19,13 @@
     "node_modules",
     "block-client/node_modules"
   ],
-  "description": "Chinese compound word dictionary",
-  "main": "server.js",
   "devDependencies": {},
+  "author": "ns",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/silva-nick/block-dict.git"
   },
-  "author": "ns",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/silva-nick/block-dict/issues"
   },
