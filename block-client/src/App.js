@@ -4,6 +4,29 @@ import api from "./api";
 
 const querystring = require("querystring");
 
+function landComponent(props) {
+  const style = {
+    //backgroundColor: `rgb(${randomColor()})`,
+    width: "480px",
+    height: "480px",
+  };
+
+  function handleClick(event) {
+    //write cookies
+  }
+
+  return (
+    <div className="block" style={style}>
+      <h1>Welcome to Block Dictionary</h1>
+      <p>
+        Block Dictionary is a Chinese compound word dictionary. Search for a
+        word or add a list and learn new combinations!
+      </p>
+      <button onClick={handleClick}>Ready?</button>
+    </div>
+  );
+}
+
 function randomColor() {
   return [
     Math.round(Math.random() * 105 + 150),
@@ -189,6 +212,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
+        <div className="landing">{landComponent}</div>
         <div className="translation-bar">
           <text class="title">Translate a word </text>
           <input
