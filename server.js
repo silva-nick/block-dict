@@ -9,6 +9,7 @@ http
   .createServer((request, response) => {
     console.log(request.method);
     console.log(request.url);
+    console.log("Test");
     let body = [];
     if (
       request.method === "POST" &&

@@ -198,6 +198,14 @@ class App extends React.Component {
         </div>
         <div className="input-blocks">{blockList}</div>
         <div className="output-blocks">{defineList}</div>
+        <div>
+          <button
+            className="feedbutton"
+            href="https://forms.gle/Dtk1fBdhTJYgY6JV8"
+          >
+            Feedback?
+          </button>
+        </div>
       </div>
     );
   }
