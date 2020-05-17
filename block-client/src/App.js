@@ -35,7 +35,9 @@ class Block extends React.Component {
 
     return (
       <div className="block" style={style}>
-        <text onClick={this.handleClick}>{this.props.value}</text>
+        <text className="noselect" onClick={this.handleClick}>
+          {this.props.value}
+        </text>
       </div>
     );
   }
@@ -65,14 +67,14 @@ class BigBlock extends React.Component {
       return (
         <div className="output-block" onClick={this.handleClick} style={styles}>
           <div class="flip-card-front">
-            <text>{this.props.value.simplified}</text>
+            <text className="noselect">{this.props.value.simplified}</text>
           </div>
           <div class="flip-card-back">
             <div className="pinyin">
-              <text>{this.props.value.pinyin}</text>
+              <text className="noselect">{this.props.value.pinyin}</text>
             </div>
             <div className="definition">
-              <text>{this.props.value.english}</text>
+              <text className="noselect">{this.props.value.english}</text>
             </div>
           </div>
         </div>
@@ -81,14 +83,14 @@ class BigBlock extends React.Component {
       return (
         <div className="output-block" onClick={this.handleClick}>
           <div class="flip-card-front">
-            <text>{this.props.value.simplified}</text>
+            <text className="noselect">{this.props.value.simplified}</text>
           </div>
           <div class="flip-card-back">
             <div className="pinyin">
-              <text>{this.props.value.pinyin}</text>
+              <text className="noselect">{this.props.value.pinyin}</text>
             </div>
             <div className="definition">
-              <text>{this.props.value.english}</text>
+              <text className="noselect">{this.props.value.english}</text>
             </div>
           </div>
         </div>
@@ -198,7 +200,7 @@ class App extends React.Component {
         </div>
         <div className="input-blocks">{blockList}</div>
         <div className="output-blocks">{defineList}</div>
-        <div>
+        <div className="feedback">
           <button
             className="feedbutton"
             href="https://forms.gle/Dtk1fBdhTJYgY6JV8"

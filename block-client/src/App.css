@@ -119,13 +119,27 @@ html {
   margin-right: 4px;
 }
 
+.feedback {
+  position: fixed;
+  bottom: 0;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .feedbutton {
   background-color: #2760b0;
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 15px 28px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 18px;
 }
