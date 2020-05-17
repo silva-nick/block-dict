@@ -3,6 +3,8 @@ const fs = require("fs");
 const dict = require("./dictionary.json");
 const querystring = require("querystring");
 
+const PORT = process.env.PORT || 3001;
+
 http
   .createServer((request, response) => {
     console.log(request.method);
@@ -71,4 +73,4 @@ http
       response.end();
     }
   })
-  .listen(3001);
+  .listen(PORT);
