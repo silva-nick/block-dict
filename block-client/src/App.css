@@ -121,7 +121,13 @@ html {
 
 .feedback {
   position: fixed;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   bottom: 0;
+  width: 100%;
 }
 
 .noselect {

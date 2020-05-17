@@ -201,12 +201,9 @@ class App extends React.Component {
         <div className="input-blocks">{blockList}</div>
         <div className="output-blocks">{defineList}</div>
         <div className="feedback">
-          <button
-            className="feedbutton"
-            href="https://forms.gle/Dtk1fBdhTJYgY6JV8"
-          >
+          <a className="feedbutton" href="https://forms.gle/Dtk1fBdhTJYgY6JV8">
             Feedback?
-          </button>
+          </a>
         </div>
       </div>
     );
